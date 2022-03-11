@@ -20,8 +20,8 @@ public class TweetApp {
 		TweetUtil tweetUtil = new TweetUtil();
 
 		if (!loggedInStatus) {
-			System.out.println("Welcome to tweetApp - Console. Please choose from the options below:\n");
-			System.out.println("_____________________________________________\n1.Register\n2.Login\n3.Forgot password");
+			System.out.println("Welcome to tweetApp - Console\n");
+			System.out.println("\n1.Register\n2.Login\n3.Forgot password");
 
 			int option = scanner.nextInt();
 			switch (option) {
@@ -50,9 +50,8 @@ public class TweetApp {
 
 			}
 		} else {
-			System.out.println("Logged in successfully.. Please choose from the options below:\n");
-			System.out.println(
-					"____________________________________________\n1.Post a tweet\n2.View my tweets\n3.View all tweets\n4.View all users\n5.Reset password\n6.Logout");
+			System.out.println("Logged in successfully..\n");
+			System.out.println("\n1.Post a tweet\n2.View my tweets\n3.View all tweets\n4.View all users\n5.Reset password\n6.Logout");
 
 			int option = scanner.nextInt();
 			switch (option) {
