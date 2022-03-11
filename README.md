@@ -4,4 +4,4 @@ This is a simple java console based twitter appiication.
 
 #==============Runnig the application=====================#
 
-Change the database properties file in application.proeprties file.
+Change the database properties file in database.proeprties file.
