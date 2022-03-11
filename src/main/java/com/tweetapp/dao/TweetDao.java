@@ -1,14 +1,13 @@
 package com.tweetapp.dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 import com.tweetapp.model.Tweet;
-
+import com.tweetapp.utils.DbConnectUtil;
 
 public class TweetDao {
 	private Connection connect = null;
@@ -18,8 +17,9 @@ public class TweetDao {
 
 	public TweetDao() {
 		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			connect = DriverManager.getConnection("jdbc:mysql://localhost/component1", "root", "password");
+
+			connect = DbConnectUtil.getConnection();
+
 			String sqlCreate = "CREATE TABLE IF NOT EXISTS TWEET" + "(id INTEGER AUTO_INCREMENT PRIMARY KEY,"
 					+ "userid INTEGER," + "tweet VARCHAR(100)," + "created DATE)";
 			Statement stmt = connect.createStatement();

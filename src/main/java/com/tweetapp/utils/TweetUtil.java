@@ -4,7 +4,6 @@ import java.util.Scanner;
 
 import com.tweetapp.model.Tweet;
 import com.tweetapp.service.TweetService;
-import com.tweetapp.service.UserService;
 
 public class TweetUtil {
 

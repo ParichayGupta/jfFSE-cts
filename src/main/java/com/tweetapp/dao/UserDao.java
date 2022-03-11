@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.tweetapp.model.User;
+import com.tweetapp.utils.DbConnectUtil;
 
 public class UserDao {
 	List<User> userList = new ArrayList<User>();
@@ -21,13 +22,12 @@ public class UserDao {
 
 	public UserDao() {
 		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			connect = DriverManager.getConnection("jdbc:mysql://localhost/component1" ,"root","password");
-			String sqlCreate = "CREATE TABLE IF NOT EXISTS USER"
-					+ "(id INTEGER AUTO_INCREMENT PRIMARY KEY," + "firstname VARCHAR(20),"
-					+ "lastname VARCHAR(20)," + "gender VARCHAR(20),"
-					+ "dateOfBirth VARCHAR(15)," + " email VARCHAR(30)," + "password VARCHAR(15),"
-					+ "status BOOLEAN)";
+
+			connect = DbConnectUtil.getConnection();
+
+			String sqlCreate = "CREATE TABLE IF NOT EXISTS USER" + "(id INTEGER AUTO_INCREMENT PRIMARY KEY,"
+					+ "firstname VARCHAR(20)," + "lastname VARCHAR(20)," + "gender VARCHAR(20),"
+					+ "dateOfBirth VARCHAR(15)," + " email VARCHAR(30)," + "password VARCHAR(15)," + "status BOOLEAN)";
 
 			Statement stmt = connect.createStatement();
 			stmt.execute(sqlCreate);
@@ -38,7 +38,7 @@ public class UserDao {
 
 	// Register user
 	public Boolean registerUser(User user) {
-		
+
 		try {
 			PreparedStatement pstmt = connect.prepareStatement(
 					"insert into user(firstname,lastname,gender,dateOfBirth,email,password,status) values (?,?,?,?,?,?,?)");
