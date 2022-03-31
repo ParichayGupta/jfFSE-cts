@@ -2,43 +2,24 @@ package com.tweetapp.dto;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-
+/**
+ * @author Parichay Gupta
+ */
+@Getter
+@Setter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Document
 public class Like {
 
 	private String tweetId;
 	private String username;
-
-	public Like() {
-		super();
-	}
-
-	public Like(String tweetId, String username) {
-		super();
-		this.tweetId = tweetId;
-		this.username = username;
-	}
-
-	public String getTweetId() {
-		return tweetId;
-	}
-
-	public void setTweetId(String tweetId) {
-		this.tweetId = tweetId;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	@Override
-	public String toString() {
-		return "Like [tweetId=" + tweetId + ", username=" + username + "]";
-	}
 
 }

@@ -12,20 +12,27 @@ import org.springframework.stereotype.Service;
 import com.tweetapp.entities.UserModel;
 import com.tweetapp.repositories.UserRepository;
 
+/**
+ * @author Parichay Gupta
+ */
 @Service
 public class UserService implements UserDetailsService {
 
+//	Injeted userRepository bean
 	@Autowired
 	private UserRepository userRepository;
 
+	/**
+	 * Used for validation
+	 */
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		UserModel foundedUser = userRepository.findByUsername(username);
 		if (foundedUser == null)
 			return null;
 		String name = foundedUser.getUsername();
-		String pwd = foundedUser.getPassword();
-		return new User(name, pwd, new ArrayList<>());
+		String password = foundedUser.getPassword();
+		return new User(name, password, new ArrayList<>());
 	}
 
 }

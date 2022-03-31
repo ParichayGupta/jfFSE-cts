@@ -1,38 +1,21 @@
 package com.tweetapp.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+/**
+ * @author Parichay Gupta
+ */
+@Getter
+@Setter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class TweetUpdate {
 	private String tweetId;
 	private String tweetText;
-
-	public TweetUpdate() {
-		super();
-	}
-
-	public String getTweetId() {
-		return tweetId;
-	}
-
-	public void setTweetId(String tweetId) {
-		this.tweetId = tweetId;
-	}
-
-	public String getTweetText() {
-		return tweetText;
-	}
-
-	public void setTweetText(String tweetText) {
-		this.tweetText = tweetText;
-	}
-
-	public TweetUpdate(String tweetId, String tweetText) {
-		super();
-		this.tweetId = tweetId;
-		this.tweetText = tweetText;
-	}
-
-	@Override
-	public String toString() {
-		return "TweetUpdate [tweetId=" + tweetId + ", tweetText=" + tweetText + "]";
-	}
 
 }

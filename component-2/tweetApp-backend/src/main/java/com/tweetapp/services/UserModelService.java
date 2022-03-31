@@ -1,6 +1,5 @@
 package com.tweetapp.services;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -11,13 +10,23 @@ import com.tweetapp.entities.UserModel;
 import com.tweetapp.exception.UsernameAlreadyExists;
 import com.tweetapp.repositories.UserRepository;
 
+/**
+ * @author Parichay Gupta
+ */
 @Service
 public class UserModelService {
 
+//  injected User Repository bean
 	@Autowired
 	private UserRepository userRepository;
+	
+	
 
-	// find user by username
+	/**
+	 * find user by username
+	 * 
+	 * @return UserModel
+	 */
 	public UserModel findByUsername(String username) {
 		UserModel userModel = userRepository.findByUsername(username);
 		UserModel newUserModel = new UserModel(userModel.getUsername(), userModel.getFirstName(),
@@ -25,7 +34,11 @@ public class UserModelService {
 		return newUserModel;
 	}
 
-	// create new user
+	/**
+	 * create a new user
+	 * 
+	 * @return UserModel
+	 */
 	public UserModel createUser(UserModel user) throws UsernameAlreadyExists {
 		UserModel foundedUser = userRepository.findByUsername(user.getUsername());
 		if (foundedUser != null) {
@@ -34,7 +47,11 @@ public class UserModelService {
 		return userRepository.save(user);
 	}
 
-	// Method to return a list of all users
+	/**
+	 * Method to get all users
+	 * 
+	 * @return List<UserModel>
+	 */
 	public List<UserModel> getAllUsers() {
 		List<UserModel> userModels = (List<UserModel>) userRepository.findAll();
 		List<UserModel> newUserModel = userModels.stream().map(user -> {
@@ -44,7 +61,11 @@ public class UserModelService {
 		return newUserModel;
 	}
 
-	// Method to change a user's password
+	/**
+	 * Reset User password
+	 * 
+	 * @return userModel
+	 */
 	public UserModel changePassword(String username, String newPassword, String contact) throws Exception {
 		UserModel userDetails = userRepository.findByUsername(username);
 		if (userDetails.getContactNum().equalsIgnoreCase(contact)
@@ -56,8 +77,4 @@ public class UserModelService {
 		}
 	}
 
-	// Method to search for like users by username
-	public List<UserModel> getUsersByUsername(String username) {
-		return userRepository.findAll();
-	}
 }
