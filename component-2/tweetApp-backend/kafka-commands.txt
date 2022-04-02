@@ -22,7 +22,7 @@ docker run -it --rm --network tweetapp_kafka_docker confluentinc/cp-kafka /bin/k
 docker run -it --rm --network tweetapp_kafka_docker confluentinc/cp-kafka /bin/kafka-console-consumer --bootstrap-server kafka:9092 --topic topic_name
 ===============================================================================================
 
-- To connect with kafka by our spring boot application we must have give the property in application.properties fiie
+- To connect with kafka by our spring boot producer application we must have give the property in application.properties fiie
 spring.kafka.producer.bootstrap-servers=localhost:29092
 =================================================================================================
 

@@ -3,6 +3,7 @@ package com.tweetapp.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,6 +37,12 @@ public class AuthController {
 	@Autowired
 	private UserRepository userRepository;
 
+//  Kafka Configuration
+	@Autowired
+	private KafkaTemplate<String, String> kafkaTemplate;
+//	Kafka Topic Name
+	private static final String KAFKA_TOPIC = "tweets";
+
 	/**
 	 * Controller Method to register a new User 
 	 * HTTP Post Request
@@ -48,45 +55,61 @@ public class AuthController {
 	public ResponseEntity<?> register(@RequestBody UserModel userModel) {
 		try {
 			UserModel savedUser = userModelService.createUser(userModel);
+			kafkaTemplate.send(KAFKA_TOPIC, "A new user Registered with username: "+userModel.getUsername());
 			return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
 		} catch (UsernameAlreadyExists e) {
+			kafkaTemplate.send(KAFKA_TOPIC, "Authentication failed for "+userModel.getUsername()+"-> username already exist.");
 			return new ResponseEntity<>(new AuthenticationResponse("Given userId/email already exists"),
 					HttpStatus.CONFLICT);
 		} catch (Exception e) {
+			kafkaTemplate.send(KAFKA_TOPIC,userModel.getUsername()+" has encounter a server error while registering.");
 			return new ResponseEntity<>(new AuthenticationResponse("Application has faced an issue"),
 					HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
 	/**
-	 * Controller Method for user login
+	 * Controller Method for user login 
 	 * HTTP Post Request
+	 * 
 	 * @return ResponseEntity
 	 * 
 	 *         http://localhost:8082/api/v1.0/tweets/login
 	 */
-
 	@PostMapping("/tweets/login")
 	public ResponseEntity<?> login(@RequestBody AuthenticationRequest authenticationRequest) {
 		String username = authenticationRequest.getUsername();
 		String password = authenticationRequest.getPassword();
 		UserModel checkUser = userRepository.findByUsername(username);
-		if (checkUser.getPassword().equals(password))
+		if (checkUser.getPassword().equals(password)) {
+			kafkaTemplate.send(KAFKA_TOPIC,"Login successful for "+checkUser.getUsername());
 			return new ResponseEntity<>(userModelService.findByUsername(username), HttpStatus.OK);
-		else
+		}
+		else {
+			kafkaTemplate.send(KAFKA_TOPIC,"Login failed for "+checkUser.getUsername());
 			return new ResponseEntity<>(new AuthenticationResponse("Bad Credentials " + username),
 					HttpStatus.UNAUTHORIZED);
-
+		}
 	}
-	
+
+	/**
+	 * Controller Method for user password reset
+	 * HTTP Post Request
+	 * 
+	 * @return ResponseEntity
+	 * 
+	 *         http://localhost:8082/api/v1.0/tweets/ram/forgot
+	 */
 	@PutMapping(value = "/tweets/{username}/forgot")
 	public ResponseEntity<?> changePassword(@PathVariable("username") String username,
 			@RequestBody NewPassword newPassword) {
 		try {
+			kafkaTemplate.send(KAFKA_TOPIC,"password reset successful for "+username);
 			return new ResponseEntity<>(
 					userModelService.changePassword(username, newPassword.getNewPassword(), newPassword.getContact()),
 					HttpStatus.OK);
 		} catch (Exception e) {
+			kafkaTemplate.send(KAFKA_TOPIC,"password reset failed for"+username);
 			return new ResponseEntity<>(new AuthenticationResponse("Unable to change password"),
 					HttpStatus.INTERNAL_SERVER_ERROR);
 		}

@@ -2,9 +2,13 @@ package com.tweetapp;
 
 import java.util.Collections;
 
+import javax.management.loading.PrivateClassLoader;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.kafka.core.KafkaTemplate;
 
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -30,7 +34,8 @@ public class TweetApp {
 	private ApiInfo apiInfo() {
 		return new ApiInfo("Tweet APP Api",
 				"An application where user can post, like and comment a tweet, at the same time search users and their tweets.",
-				"1.0", "Free to use", new springfox.documentation.service.Contact("Parichay Gupta", "https://github.com/parichaygupta",
+				"1.0", "Free to use",
+				new springfox.documentation.service.Contact("Parichay Gupta", "https://github.com/parichaygupta",
 						"parichaygupta93@gmail.com"),
 				"PG license", "https://github.com/parichaygupta", Collections.emptyList());
 	}

@@ -40,8 +40,8 @@ public class UserController {
 	 */
 	@GetMapping(value = "/tweets/users/all")
 	public ResponseEntity<?> getAllUsers() {
+		kafkaTemplate.send(KAFKA_TOPIC,"Returned all the users");
 		return new ResponseEntity<>(userModelService.getAllUsers(), HttpStatus.OK);
-
 	}
 
 	// method to search for like users by username
@@ -55,14 +55,9 @@ public class UserController {
 	 */
 	@GetMapping(value = "/tweets/user/search/{username}")
 	public ResponseEntity<?> searchForUsers(@PathVariable String username) {
+		kafkaTemplate.send(KAFKA_TOPIC,"User fetched: "+username);
 		return new ResponseEntity<>(userModelService.findByUsername(username), HttpStatus.OK);
 	}
 	
-	
-	@GetMapping(value = "/greet/{message}")
-	public String send(@PathVariable String message) {
-		kafkaTemplate.send(KAFKA_TOPIC,message);
-		return message+" published to "+KAFKA_TOPIC;
-	}
 
 }

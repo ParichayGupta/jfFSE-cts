@@ -36,7 +36,7 @@ public class TweetController {
 	@Autowired
 	private TweetService tweetService;
 	
-	// Kafka Configuration
+//  Kafka Configuration
 	@Autowired
 	private KafkaTemplate<String, String> kafkaTemplate;
 //	Kafka Topic Name
@@ -53,8 +53,10 @@ public class TweetController {
 	@GetMapping(value = "/tweets/all")
 	public ResponseEntity<?> getAllTweets(@RequestHeader(value = "loggedInUser") String loggedInUser) {
 		try {
+			kafkaTemplate.send(KAFKA_TOPIC,"All available tweets are requested by: "+loggedInUser);
 			return new ResponseEntity<>(tweetService.getAllTweets(loggedInUser), HttpStatus.OK);
 		} catch (Exception e) {
+			kafkaTemplate.send(KAFKA_TOPIC,"Server error while fetching all available tweets are requested by: "+loggedInUser);
 			return new ResponseEntity<>(new ErrorResponse("Application has faced an issue"),
 					HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -72,11 +74,14 @@ public class TweetController {
 	public ResponseEntity<?> getUserTweets(@PathVariable("username") String username,
 			@RequestHeader(value = "loggedInUser") String loggedInUser) {
 		try {
+			kafkaTemplate.send(KAFKA_TOPIC,"All tweets posted by: "+username+" are fetched.");
 			return new ResponseEntity<>(tweetService.getUserTweets(username, loggedInUser), HttpStatus.OK);
 		} catch (InvalidUsernameException e) {
+			kafkaTemplate.send(KAFKA_TOPIC,"User Parameters mismatch while fetching all tweets by: "+username);
 			return new ResponseEntity<>(new ErrorResponse("Invalid User param received"),
 					HttpStatus.UNPROCESSABLE_ENTITY);
 		} catch (Exception e) {
+			kafkaTemplate.send(KAFKA_TOPIC,"Server error while fetching all tweets by: "+username);
 			return new ResponseEntity<>(new ErrorResponse("Application has faced an issue"),
 					HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -92,10 +97,9 @@ public class TweetController {
 	 */
 	@PostMapping(value = "/tweets/{username}/add")
 	public ResponseEntity<?> postNewTweet(@PathVariable("username") String username, @RequestBody Tweet newTweet) {
-		log.info("message sent to: "+KAFKA_TOPIC);
-		kafkaTemplate.send(KAFKA_TOPIC,"a new tweet is posted by"+username);
+		log.info("posting tweet message sent to: "+KAFKA_TOPIC);
+		kafkaTemplate.send(KAFKA_TOPIC,"A new tweet is posted by: "+username);
 		return new ResponseEntity<>(tweetService.postNewTweet(username, newTweet), HttpStatus.CREATED);
-
 	}
 
 	/**
@@ -110,8 +114,10 @@ public class TweetController {
 	public ResponseEntity<?> getTweetDeatils(@PathVariable("username") String username,
 			@PathVariable("tweetId") String tweetId) {
 		try {
+			kafkaTemplate.send(KAFKA_TOPIC,username+" is fetching a tweet and it's details.");
 			return new ResponseEntity<>(tweetService.getTweet(tweetId, username), HttpStatus.OK);
 		} catch (Exception e) {
+			kafkaTemplate.send(KAFKA_TOPIC,username+" is fetching a tweet and its details but encountered server error.");
 			return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
@@ -125,15 +131,18 @@ public class TweetController {
 	 *         http://localhost:8082/api/v1.0/tweets/ram/update
 	 */
 	@PutMapping(value = "/tweets/{username}/update")
-	public ResponseEntity<?> updateTweet(@PathVariable("username") String userId,
+	public ResponseEntity<?> updateTweet(@PathVariable("username") String username,
 			@RequestBody TweetUpdate tweetUpdate) {
 		try {
+			kafkaTemplate.send(KAFKA_TOPIC,username+" has updated a tweet.");
 			return new ResponseEntity<>(
-					tweetService.updateTweet(userId, tweetUpdate.getTweetId(), tweetUpdate.getTweetText()),
+					tweetService.updateTweet(username, tweetUpdate.getTweetId(), tweetUpdate.getTweetText()),
 					HttpStatus.OK);
 		} catch (TweetNotFoundException e) {
+			kafkaTemplate.send(KAFKA_TOPIC,username+" has encountered an error while updating a tweet.");
 			return new ResponseEntity<>(new ErrorResponse("Given tweetId cannot be found"), HttpStatus.NOT_FOUND);
 		} catch (Exception e) {
+			kafkaTemplate.send(KAFKA_TOPIC,username+" has encountered server error while updating a tweet.");
 			return new ResponseEntity<>(new ErrorResponse("Application has faced an issue"),
 					HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -148,13 +157,16 @@ public class TweetController {
 	 *         http://localhost:8082/api/v1.0/tweets/ram/delete
 	 */
 	@DeleteMapping(value = "/tweets/{username}/delete")
-	public ResponseEntity<?> deleteTweet(@PathVariable("username") String userId,
+	public ResponseEntity<?> deleteTweet(@PathVariable("username") String username,
 			@RequestHeader(value = "tweetId") String tweetId) {
 		try {
+			kafkaTemplate.send(KAFKA_TOPIC,username+" has deleted a tweet.");
 			return new ResponseEntity<>(tweetService.deleteTweet(tweetId), HttpStatus.OK);
 		} catch (TweetNotFoundException e) {
+			kafkaTemplate.send(KAFKA_TOPIC,username+" has encounterd an error while deleting a tweet");
 			return new ResponseEntity<>(new ErrorResponse("Given tweetId cannot be found"), HttpStatus.NOT_FOUND);
 		} catch (Exception e) {
+			kafkaTemplate.send(KAFKA_TOPIC,username+" has encounterd a  server error while deleting a tweet");
 			return new ResponseEntity<>(new ErrorResponse("Application has faced an issue"),
 					HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -172,10 +184,13 @@ public class TweetController {
 	public ResponseEntity<?> likeATweet(@PathVariable("username") String username,
 			@PathVariable(value = "tweetId") String tweetId) {
 		try {
+			kafkaTemplate.send(KAFKA_TOPIC,username+" liked a tweet.");
 			return new ResponseEntity<>(tweetService.likeTweet(username, tweetId), HttpStatus.OK);
 		} catch (TweetNotFoundException e) {
+			kafkaTemplate.send(KAFKA_TOPIC,username+" has encounterd an error while liking a tweet");
 			return new ResponseEntity<>(new ErrorResponse("Given tweetId cannot be found"), HttpStatus.NOT_FOUND);
 		} catch (Exception e) {
+			kafkaTemplate.send(KAFKA_TOPIC,username+" has encounterd a server error while liking a tweet");
 			return new ResponseEntity<>(new ErrorResponse("Application has faced an issue"),
 					HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -193,10 +208,13 @@ public class TweetController {
 	public ResponseEntity<?> dislikeATweet(@PathVariable("username") String username,
 			@PathVariable(value = "tweetId") String tweetId) {
 		try {
+			kafkaTemplate.send(KAFKA_TOPIC,username+" disliked a tweet");
 			return new ResponseEntity<>(tweetService.dislikeTweet(username, tweetId), HttpStatus.OK);
 		} catch (TweetNotFoundException e) {
+			kafkaTemplate.send(KAFKA_TOPIC,username+" has encounterd an error while disliking a tweet");
 			return new ResponseEntity<>(new ErrorResponse("Given tweetId cannot be found"), HttpStatus.NOT_FOUND);
 		} catch (Exception e) {
+			kafkaTemplate.send(KAFKA_TOPIC,username+" has encounterd a server error while deleting a tweet");
 			return new ResponseEntity<>(new ErrorResponse("Application has faced an issue"),
 					HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -211,14 +229,17 @@ public class TweetController {
 	 *         http://localhost:8082/api/v1.0/tweets/ram/reply/ibe2226137b37328
 	 */
 	@PostMapping(value = "/tweets/{username}/reply/{tweetId}")
-	public ResponseEntity<?> replyToTweet(@PathVariable("username") String userId,
+	public ResponseEntity<?> replyToTweet(@PathVariable("username") String username,
 			@PathVariable("tweetId") String tweetId, @RequestBody Reply tweetReply) {
 		try {
-			return new ResponseEntity<>(tweetService.replyTweet(userId, tweetId, tweetReply.getComment()),
+			kafkaTemplate.send(KAFKA_TOPIC,username+" has commented on a tweet.");
+			return new ResponseEntity<>(tweetService.replyTweet(username, tweetId, tweetReply.getComment()),
 					HttpStatus.OK);
 		} catch (TweetNotFoundException e) {
+			kafkaTemplate.send(KAFKA_TOPIC,username+" has encounterd an error while commenting on a tweet");
 			return new ResponseEntity<>(new ErrorResponse("Given tweetId cannot be found"), HttpStatus.NOT_FOUND);
 		} catch (Exception e) {
+			kafkaTemplate.send(KAFKA_TOPIC,username+" has encounterd a server error while commenting on a tweet");
 			return new ResponseEntity<>(new ErrorResponse("Application has faced an issue"),
 					HttpStatus.INTERNAL_SERVER_ERROR);
 		}
