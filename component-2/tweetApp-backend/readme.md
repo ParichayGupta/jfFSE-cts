@@ -41,6 +41,12 @@ The base package for application is
   POST /login
 ```
 
+#### forgot Password
+
+...
+  PUT /forgot
+...
+
 #### Post a tweet
 
 ```
