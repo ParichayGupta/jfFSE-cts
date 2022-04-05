@@ -12,7 +12,7 @@
 	<groupId>com.tweetapp</groupId>
 	<artifactId>TweetApp</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>TweetApp-API</name>
+	<name>TweetApp</name>
 	<description>Backend for Tweetapp</description>
 	<properties>
 		<java.version>1.8</java.version>
@@ -34,7 +34,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -58,12 +57,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
@@ -83,14 +76,11 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/org.mockito/mockito-all -->
+		<!-- Micrometer Prometheus registry  -->
 		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-all</artifactId>
-			<version>1.10.19</version>
-			<scope>test</scope>
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-registry-prometheus</artifactId>
 		</dependency>
-
 	</dependencies>
 
 	<build>
@@ -108,7 +98,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
-		<finalName>tweetapp-api</finalName>
+		<finalName>tweetapp</finalName>
 	</build>
 
 </project>

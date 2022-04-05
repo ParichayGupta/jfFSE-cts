@@ -20,6 +20,7 @@ docker run -it --rm --network tweetapp_kafka_docker confluentinc/cp-kafka /bin/k
 
 - Running kakfka consumer in docker // must check the topic name 
 docker run -it --rm --network tweetapp_kafka_docker confluentinc/cp-kafka /bin/kafka-console-consumer --bootstrap-server kafka:9092 --topic topic_name
+
 ===============================================================================================
 
 - To connect with kafka by our spring boot producer application we must have give the property in application.properties fiie
