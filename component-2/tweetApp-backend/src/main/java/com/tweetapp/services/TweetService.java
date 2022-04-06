@@ -6,7 +6,10 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import com.tweetapp.dto.Comment;
@@ -27,7 +30,13 @@ public class TweetService {
 //	Injected TweetRepository bean
 	@Autowired
 	private TweetRepository tweetRepository;
-
+	
+	@Autowired
+	KafkaTemplate<String, Tweet> kafkaTemplate;
+	
+	private static final String KAFKA_TOPIC = "tweets";
+	
+	Logger logger = LoggerFactory.getLogger(TweetService.class);
 	/**
 	 * Find all the available tweets
 	 * 
@@ -39,6 +48,7 @@ public class TweetService {
 			Integer likesCount = tweet.getLikes().size();
 			Boolean likeStatus = tweet.getLikes().contains(loggedInUser);
 			Integer commentsCount = tweet.getComments().size();
+			logger.info("All tweets --> {}",tweet);
 			return new TweetResponse(tweet.getTweetId(), tweet.getUsername(), tweet.getTweetText(),
 					tweet.getFirstName(), tweet.getLastName(), tweet.getTweetDate(), likesCount, commentsCount,
 					likeStatus, tweet.getComments());
@@ -61,6 +71,7 @@ public class TweetService {
 				Integer likesCount = tweet.getLikes().size();
 				Boolean likeStatus = tweet.getLikes().contains(loggedInUser);
 				Integer commentsCount = tweet.getComments().size();
+				logger.info( username+" tweets --> {}",tweet);
 				return new TweetResponse(tweet.getTweetId(), username, tweet.getTweetText(), tweet.getFirstName(),
 						tweet.getLastName(), tweet.getTweetDate(), likesCount, commentsCount, likeStatus,
 						tweet.getComments());
@@ -79,6 +90,8 @@ public class TweetService {
 	 */
 	public Tweet postNewTweet(String username, Tweet newTweet) {
 		newTweet.setTweetId(UUID.randomUUID().toString());
+		kafkaTemplate.send(KAFKA_TOPIC, newTweet);
+		logger.info("The new tweet --> {}",newTweet);
 		return tweetRepository.insert(newTweet);
 	}
 
@@ -95,6 +108,7 @@ public class TweetService {
 			Integer likesCount = tweet.getLikes().size();
 			Boolean likeStatus = tweet.getLikes().contains(username);
 			Integer commentsCount = tweet.getComments().size();
+			logger.info("returned tweet --> {}",tweet);
 			return new TweetResponse(tweet.getTweetId(), tweet.getUsername(), tweet.getTweetText(),
 					tweet.getFirstName(), tweet.getLastName(), tweet.getTweetDate(), likesCount, commentsCount,
 					likeStatus, tweet.getComments());
@@ -116,8 +130,10 @@ public class TweetService {
 		if (originalTweetOptional.isPresent()) {
 			Tweet tweet = originalTweetOptional.get();
 			tweet.setTweetText(updatedTweetText);
+			logger.info("Updated tweet --> {}",tweet);
 			return tweetRepository.save(tweet);
 		} else {
+			logger.error("cannot update tweet since this tweet does not exist anymore.");
 			throw new TweetNotFoundException("This tweet does not exist anymore.");
 		}
 
@@ -134,6 +150,7 @@ public class TweetService {
 			tweetRepository.deleteById(tweetId);
 			return true;
 		} else {
+			logger.error("Cannot delete tweet since this tweet does not exist anymore.");
 			throw new TweetNotFoundException("This tweet does not exist anymore.");
 		}
 	}
@@ -149,8 +166,10 @@ public class TweetService {
 		if (tweetOptional.isPresent()) {
 			Tweet tweet = tweetOptional.get();
 			tweet.getLikes().add(username);
+			logger.debug("Liked tweet --> {}",tweet);
 			return tweetRepository.save(tweet);
 		} else {
+			logger.error("cannot like tweet since this tweet does not exist anymore.");
 			throw new TweetNotFoundException("This tweet does not exist anymore.");
 		}
 	}
@@ -166,8 +185,10 @@ public class TweetService {
 		if (tweetOptional.isPresent()) {
 			Tweet tweet = tweetOptional.get();
 			tweet.getLikes().remove(username);
+			logger.info("Disliked tweets --> {}",tweet);
 			return tweetRepository.save(tweet);
 		} else {
+			logger.error("cannot dislike tweet since this tweet does not exist anymore.");
 			throw new TweetNotFoundException("This tweet does not exist anymore.");
 		}
 	}
@@ -186,8 +207,11 @@ public class TweetService {
 			List<Comment> addList = new ArrayList<Comment>();
 			addList.add(comment);
 			tweet.getComments().add(comment);
+			kafkaTemplate.send(KAFKA_TOPIC, tweet); // KAFKA SENDING EVENTS TO TOPIC
+			logger.info("Commented on tweet --> {}",tweet);
 			return tweetRepository.save(tweet);
 		} else {
+			logger.error("cannot comment on tweet since this tweet does not exist anymore.");
 			throw new TweetNotFoundException("This tweet does not exist anymore.");
 		}
 	}

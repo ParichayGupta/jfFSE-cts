@@ -3,6 +3,8 @@ package com.tweetapp.services;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +22,7 @@ public class UserModelService {
 	@Autowired
 	private UserRepository userRepository;
 	
-	
+	Logger logger = LoggerFactory.getLogger(UserModelService.class);
 
 	/**
 	 * find user by username
@@ -42,6 +44,7 @@ public class UserModelService {
 	public UserModel createUser(UserModel user) throws UsernameAlreadyExists {
 		UserModel foundedUser = userRepository.findByUsername(user.getUsername());
 		if (foundedUser != null) {
+			logger.error("Username is not available");
 			throw new UsernameAlreadyExists("username already exists");
 		}
 		return userRepository.save(user);
@@ -71,10 +74,17 @@ public class UserModelService {
 		if (userDetails.getContactNum().equalsIgnoreCase(contact)
 				&& userDetails.getUsername().equalsIgnoreCase(username)) {
 			userDetails.setPassword(newPassword);
+			logger.info("Password Updated for --> {}",userDetails);
 			return userRepository.save(userDetails);
 		} else {
+			logger.error("cannot change password");
 			throw new Exception("Unable to change password");
 		}
+	}
+	
+	// Method to search for like users by username
+	public List<UserModel> getUsersByUsername(String username) {
+		return userRepository.findAll();
 	}
 
 }
