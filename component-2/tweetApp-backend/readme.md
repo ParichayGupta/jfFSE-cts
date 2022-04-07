@@ -2,8 +2,9 @@
 # TweetApp-backend
 
 TweetApp-backend is a spring boot application having the backend for the twitter clone created in Angular.
+___
 
-## Features
+## FEATURES
 
 - Register a new user
 - Login an existing user
@@ -15,9 +16,9 @@ TweetApp-backend is a spring boot application having the backend for the twitter
 - View all users
 - View Tweets of a user
 
+___
 
-
-## API Reference
+## API REFERENCE
 
 The base package for application is 
 ...
@@ -57,21 +58,21 @@ The base package for application is
 | :-------- | :------- | :-------------------------------- |
 | `username`      | `string` | **Required**. user who is posting the tweet. |
 
+___
 
+___
 
 ## DOCKERIZATION OF THE APPLICATION
 
+First build the `jar` file for our spring boot application.
 
-   
-
-Run the Dockerfile using 
+then run the Dockerfile using 
 
   `docker build -t <docker_image_name> . `
 
 p.s. <docker_image_name> is what you will give image name as it is not present in the docker unless you run the command.
 
-
-
+___
 
 ## TweetApp-angular
 
