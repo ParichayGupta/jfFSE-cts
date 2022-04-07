@@ -26,31 +26,31 @@ The base package for application is
 #### Get all tweets
 
 ```
-  GET /all
+  `GET` /all
 ```
 
 #### Register a new user
 
 ```
-  POST /register
+  `POST` /register
 ```
 
 #### login an existing user
 
 ```
-  POST /login
+  `POST` /login
 ```
 
 #### forgot Password
 
-...
-  PUT /forgot
-...
+```
+  `PUT` /forgot
+```
 
 #### Post a tweet
 
 ```
-  POST /{username}/add
+  `POST` /{username}/add
 ```
 
 | Parameter | Type     | Description                       |
@@ -59,6 +59,16 @@ The base package for application is
 
 
 
+## DOCKERIZATION OF THE APPLICATION
+
+
+   
+
+Run the Dockerfile using 
+
+  `docker build -t <docker_image_name> . `
+
+p.s. <docker_image_name> is what you will give image name as it is not present in the docker unless you run the command.
 
 
 
