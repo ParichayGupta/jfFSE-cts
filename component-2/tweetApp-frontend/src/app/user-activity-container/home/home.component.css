@@ -1,0 +1,119 @@
+.top {
+    position: fixed;
+    padding-top: 0;
+    width: 100%;
+    z-index: 1;
+}
+
+.container {
+    min-height: 88vh;
+    padding-top: 60px;
+    padding-bottom: 40px;
+}
+
+.msg {
+    position: fixed;
+    top: 10%;
+    width: 100%;
+    z-index: 1;
+}
+
+.wrapper {
+    max-width: 450px;
+    min-height: 200px;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: #ecf0f3;
+    border-radius: 20px;
+    box-shadow: 13px 13px 20px #cbced1, -13px -13px 20px #fff
+}
+
+
+/* ===================================== top Section ========================================================= */
+
+.top-section img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 50%;
+    box-shadow: 0px 0px 3px #5f5f5f, 0px 0px 0px 5px #ecf0f3, 8px 8px 15px #a7aaa7, -8px -8px 15px #fff
+}
+
+.wrapper .top-section .name {
+    font-size: 1rem;
+    color: #555
+}
+
+.wrapper .top-section .tweetDate {
+    font-size: 1rem;
+    color: #555
+}
+
+
+/* =======================================bottom-section==================================================== */
+
+.wrapper .bottom-section {
+    z-index: -1;
+}
+
+.bi {
+    font-size: 1.3rem;
+}
+
+.bi:hover {
+    cursor: pointer;
+}
+
+
+/* =================================== comments section ================================================== */
+
+.scroll {
+    max-height: 100px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.wrapper .comments-section {
+    margin: 5px auto;
+    border-radius: 20px;
+}
+
+.scroll {
+    max-height: 100px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.wrapper textarea {
+    padding: 10px 10px;
+    margin: 5px 5px 5px 0px;
+    border-radius: 20px;
+    resize: none;
+    box-shadow: inset 8px 8px 8px #cbced1, inset -8px -8px 8px #fff
+}
+
+.wrapper textarea:focus {
+    border: 1px solid #03A9F4;
+    outline-width: 0;
+}
+
+.comment-button {
+    width: 35%;
+    padding: 8px;
+    background-color: #03A9F4;
+    color: #fff;
+    border-radius: 20px;
+    box-shadow: 3px 3px 3px #b1b1b1, -3px -3px 3px #fff;
+    letter-spacing: 1.3px
+}
+
+.comment-button:hover {
+    background-color: #039BE5
+}
+
+@media(max-width: 360px) {
+    .wrapper {
+        margin: 30px 20px;
+        padding: 40px 15px 15px 15px;
+    }
+}

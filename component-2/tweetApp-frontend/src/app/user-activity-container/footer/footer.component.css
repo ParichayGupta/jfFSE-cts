@@ -1,0 +1,10 @@
+@import "~bootstrap-icons/font/bootstrap-icons.css";
+@import url('https://fonts.googleapis.com/css2?family=Cabin+Sketch&display=swap');
+.bi {
+    font-size: larger;
+    color: #ecf0f3;
+}
+
+#sticky-footer {
+    font-family: 'Cabin Sketch', cursive;
+}

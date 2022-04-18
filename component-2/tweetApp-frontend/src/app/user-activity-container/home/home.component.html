@@ -1,0 +1,81 @@
+<app-nav-bar class="top"></app-nav-bar>
+
+<div *ngIf="showElement" class="msg mt-1 text-center">
+    <div id="alert-dismissible" class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Commented!</strong>
+    </div>
+</div>
+
+<div *ngIf="likedTweetPopup" class=" msg mt-1 text-center">
+    <div id=" alert-dismissible " class="alert alert-success alert-dismissible fade show " role="alert ">
+        <strong>Liked!</strong>
+    </div>
+</div>
+<div *ngIf="disLikedTweetPopup " class=" msg mt-1 text-center">
+    <div id="alert-dismissible " class="alert alert-danger alert-dismissible fade show " role="alert ">
+        <strong>DisLiked!</strong>
+    </div>
+</div>
+
+<div class="container mt-4 ">
+
+
+    <div *ngIf="noTweets " class="py-3 mt-4 text-center ">
+        <h3 class="mt-4 ">No tweets to display!!</h3>
+        <a [routerLink]="[ '/post'] ">Post the first tweet</a>
+    </div>
+
+    <!-- card to display -->
+    <div class="wrapper " *ngFor="let tweet of tweets; index as i ">
+
+
+        <div class="top-section d-flex justify-content-between me-2 ">
+            <img src="https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes-thumbnail.png " alt=" twitter-logo ">
+            <div class="text-center mt-2 pe-5 align-self-center name "> {{tweet.firstName}} {{tweet.lastName}} </div>
+            <div class="text-center pe-5 align-self-center tweetDate"> {{tweet.tweetDate}} </div>
+
+        </div>
+        <div class="mid-section d-flex ps-4 pe-4 mt-4 ">
+            <p class="post-content text-justify text-dark "> {{tweet.tweetText}}
+            </p>
+        </div>
+
+        <div class="bottom-section d-flex justify-content-around ps-4 mt-2 ">
+
+            <span *ngIf="!tweet.likeStatus " class="col-4 " (click)="likeTweet(tweet.tweetId) "><i class="bi bi-heart text-primary "></i>&nbsp;{{tweet.likesCount}}</span>
+
+            <span *ngIf="tweet.likeStatus " (click)="disLikeTweet(tweet.tweetId) " class="col-4 "><i
+                class="bi bi-heart-fill text-danger "></i>&nbsp;{{tweet.likesCount}}</span>
+
+            <button class="btn col-4 shadow-none "><i (click)="isReplyClicked(i) "
+                class="bi bi-chat-left-text text-primary " ></i>&nbsp; {{tweet.commentsCount}}</button>
+        </div>
+
+        <hr class="divider bg-dark " *ngIf="clickedReplyButton[i] ">
+        <label class="font-weight-bold " *ngIf="clickedReplyButton[i] ">Replies</label>
+
+        <div *ngIf="clickedReplyButton[i] " class="scroll mt-3 p-2 ">
+            <div *ngFor="let com of tweet.comments " class="comments-section row d-flex flex-column justify-content-around ">
+                <h6 class="ml-2 col ">
+                    {{com.username}}
+                </h6>
+                <p class="ml-2 col border-bottom border-dark ">{{com.comment}}</p>
+            </div>
+        </div>
+
+
+        <hr *ngIf="clickedReplyButton[i] " />
+        <form class="formgroup " *ngIf="clickedReplyButton[i] " [formGroup]="myFormGroup " (ngSubmit)="replyTweet(tweet.tweetId) ">
+
+            <textarea class="mb-1 form-control " id="textarea " [formControl]="myFormGroup.controls[ 'reply'] " placeholder="Write your comment, it should less than 144 characters!! " name="reply " maxlength="144 " rows="3 "></textarea>
+            <button class="btn comment-button me-2 mt-3 " type="submit ">comment</button>
+        </form>
+
+    </div>
+
+    <app-scroll-top></app-scroll-top>
+</div>
+
+
+
+<app-footer></app-footer>
