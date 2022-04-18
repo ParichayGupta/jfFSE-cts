@@ -1,5 +1,4 @@
 com\tweetapp\controller\AuthController.class
-com\tweetapp\TweetApp.class
 com\tweetapp\controller\UserController.class
 com\tweetapp\exception\UsernameAlreadyExists.class
 com\tweetapp\dto\AuthenticationRequest.class

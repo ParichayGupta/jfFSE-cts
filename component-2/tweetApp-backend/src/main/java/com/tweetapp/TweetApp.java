@@ -27,8 +27,13 @@ public class TweetApp {
 
 	@Bean
 	public Docket swaggerConfiguration() {
-		return new Docket(DocumentationType.SWAGGER_2).select().paths(PathSelectors.any())
-				.apis(RequestHandlerSelectors.basePackage("com.tweetapp")).build().apiInfo(apiInfo());
+		return new Docket(DocumentationType.SWAGGER_2)
+				.select()
+				.paths(PathSelectors.any())
+				.apis(RequestHandlerSelectors
+				.basePackage("com.tweetapp"))
+				.build()
+				.apiInfo(apiInfo());
 	}
 
 	private ApiInfo apiInfo() {
@@ -39,5 +44,7 @@ public class TweetApp {
 						"parichaygupta93@gmail.com"),
 				"PG license", "https://github.com/parichaygupta", Collections.emptyList());
 	}
+	
+
 
 }

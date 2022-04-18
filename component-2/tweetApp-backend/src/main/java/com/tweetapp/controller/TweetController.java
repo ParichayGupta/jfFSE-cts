@@ -90,7 +90,6 @@ public class TweetController {
 	@PostMapping(value = "/tweets/{username}/add")
 	public ResponseEntity<?> postNewTweet(@PathVariable("username") String username, @RequestBody Tweet newTweet) {
 		log.info("posting tweet message sent to: " + KAFKA_TOPIC);
-		kafkaTemplate.send(KAFKA_TOPIC, "A new tweet is posted by: " + username);
 		return new ResponseEntity<>(tweetService.postNewTweet(username, newTweet), HttpStatus.CREATED);
 	}
 
