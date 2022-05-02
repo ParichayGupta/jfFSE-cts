@@ -1,4 +1,5 @@
 .container {
+    min-height: 88vh;
     padding-top: 60px;
     padding-bottom: 40px;
 }
@@ -31,7 +32,7 @@
 }
 
 .button {
-    width: 35%;
+    width: 50%;
     padding: 8px;
     background-color: #03A9F4;
     color: #fff;
@@ -63,8 +64,16 @@
     background-color: #039BE5;
 }
 
+.table-hover tbody tr:hover td,
+.table-hover tbody tr:hover th {
+    background-color: #c0c2c2;
+}
+
+table {
+    box-shadow: 13px 13px 20px #cbced1, -13px -13px 20px #fff
+}
+
 .footer {
-    position: relative;
     bottom: 0px;
     width: 100%;
 }

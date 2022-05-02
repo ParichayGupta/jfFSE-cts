@@ -23,6 +23,7 @@ export class TweetsService {
     let headers = new HttpHeaders({'loggedInUser': sessionStorage.getItem('user')});
     return this.http.get<TweetResponse[]>(API_URL+"/tweets/all",{headers});
   }
+  
   getAllTweetsOfUser(userName : string ) : Observable<TweetResponse[]>{
     let headers = new HttpHeaders({'loggedInUser': sessionStorage.getItem('user')});
     return this.http.get<TweetResponse[]>(API_URL+"/tweets/"+userName,{headers});

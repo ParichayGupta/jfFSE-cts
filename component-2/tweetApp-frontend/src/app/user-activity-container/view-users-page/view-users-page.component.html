@@ -6,16 +6,16 @@
 
     </div>
     <form [formGroup]="myFormGroup" class="form-inline mt-4 mb-4 mr-auto" (ngSubmit)="search()">
-        <input class="form-control search-input mr-auto shadow-none" type="search" (keyup)="enableSearchButton()" [formControl]="myFormGroup.controls['search']" placeholder="Search User" aria-label="Search">
+        <input class="form-control search-input mr-auto shadow-none" type="search" (keyup)="enableSearchButton()" [formControl]="myFormGroup.controls['search']" placeholder="Search Username" aria-label="Search">
         <button *ngIf="!enableButtonForSearch" class="btn search btn-secondary mr-1" disabled type="submit"><b class="search-text">Search</b><i class="ml-1 bi bi-search"></i></button>
         <button *ngIf="enableButtonForSearch" class="btn search mr-1" type="submit"><b class="search-text">Search</b><i class="ml-1 bi bi-search"></i></button>
     </form>
     <p *ngIf="showSearchedText">You have searched for : <b>{{searchedText}}</b></p>
     <div class="table-responsvie">
 
-        <table class="table table-bordered text-center">
+        <table class="table table-hover table-curved text-center mb-5">
 
-            <thead class="bg-info mb-5">
+            <thead class="table-primary">
                 <tr>
                     <th>#</th>
                     <th>Email/Username</th>
@@ -25,7 +25,7 @@
             </thead>
 
             <tbody *ngFor="let names of userModel; index as i">
-                <tr class="wrapper m-">
+                <tr class="wrapper">
                     <th scope="row">{{i+1}}</th>
                     <td>{{names.username}}</td>
                     <td>{{names.firstName}} {{names.lastName}}</td>
@@ -38,7 +38,7 @@
         </table>
     </div>
     <div *ngIf="noUsersToDisplay" class="row text-center">
-        <h3 class="col-12">No users to display!!</h3>
+        <h3 class="col-12">No users found with username {{searchedText}}!!</h3>
     </div>
     <app-scroll-top></app-scroll-top>
 

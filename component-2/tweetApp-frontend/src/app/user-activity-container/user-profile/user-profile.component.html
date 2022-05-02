@@ -33,7 +33,7 @@
 <div class="container mt-4">
     <div *ngIf="noTweets" class="py-3 mt-4" style="text-align: center;">
         <h3 class="mt-4">You have no tweets to display!!</h3>
-        <a [routerLink]="['/post']">Post you first tweet :)</a>
+        <a [routerLink]="['/post']">Post your first tweet :)</a>
     </div>
 
     <div class="wrapper-profile d-flex ">
@@ -44,7 +44,6 @@
             <div class="mt-2 pe-5 name"> <b>Full Name: </b>{{firstName}} {{lastName}} </div>
             <div class="mt-2 pe-5 name"> <b>Email: </b>{{email}} </div>
             <div class="mt-2 pe-5  name"><b>Contact No: </b> {{contact}}</div>
-
         </div>
     </div>
     <!-- card to display -->

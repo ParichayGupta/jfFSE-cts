@@ -53,6 +53,11 @@ export class ViewUsersPageComponent implements OnInit {
             console.log(this.userModel);
           }
         }
+        if(this.userModel.length==0){
+          this.noUsersToDisplay = true;
+        }else{
+          this.noUsersToDisplay = false;
+        }
       })
 
       this.showSearchedText = true;
