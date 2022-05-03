@@ -1,0 +1,40 @@
+@import "~bootstrap-icons/font/bootstrap-icons.css";
+.logout-btn {
+    color: rgb(231, 231, 224);
+}
+
+.logout-btn:hover {
+    color: white;
+    background-color: red;
+}
+
+.navbar {
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+
+/* comment */
+
+nav a img {
+    display: inline;
+    width: 30px;
+    height: 30px;
+    margin: 0px;
+}
+
+.navbar-brand:hover {
+    letter-spacing: 2px;
+}
+
+.container a {
+    text-decoration: none;
+}
+
+.container .nav-link:hover {
+    font-weight: bold;
+    letter-spacing: 2px;
+    color: white !important;
+}

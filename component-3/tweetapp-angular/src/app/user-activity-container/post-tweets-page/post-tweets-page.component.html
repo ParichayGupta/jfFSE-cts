@@ -1,0 +1,39 @@
+<app-nav-bar class="top"></app-nav-bar>
+
+<div class="container px-1 px-md-5 px-lg-1 px-xl-5 mt-4 py-5 mx-auto">
+
+    <div *ngIf="showElement" class=" msg mt-1">
+        <div id="alert-dismissible" class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Tweeted!</strong>
+        </div>
+    </div>
+
+    <div class="wrapper d-flex flex-column">
+        <h3 class="text-center">Post your tweet</h3>
+
+
+        <form class="formgroup" [formGroup]="myFormGroup" (ngSubmit)="postTweet()">
+            <div class="text-center">
+                <p *ngIf="tweetEmpty"><b class="text-danger">Tweet</b> can't be empty !</p>
+            </div>
+
+            <label class="mb-1 mt-3" for="textarea">                                
+                        <h6 class="font-weight-bolder">Tweet Description <i class="bi bi-pencil font-weight-bolder"></i></h6>
+                    </label>
+
+            <textarea class="mb-0 form-control" id="textarea" name="textarea" [formControl]="myFormGroup.controls['tweet']" (keyup)="tweetLengthValidationMethod()" placeholder="Should less than 145 characters!!" maxlength="145" rows="3"></textarea>
+
+            <div *ngIf="showTweetLength">
+                <p *ngIf="showTweetRed"><b class="text-danger">145 </b> characters length completed</p>
+                <p *ngIf="!showTweetRed"><b>{{remainingTweetLength}} </b>characters remaining!!</p>
+            </div>
+
+            <button class="btn float-right button-post mt-3" type="submit">Post Tweet</button>
+
+        </form>
+
+    </div>
+</div>
+
+
+<app-footer></app-footer>

@@ -1,0 +1,80 @@
+.container {
+    min-height: 88vh;
+    padding-top: 60px;
+    padding-bottom: 40px;
+}
+
+.top {
+    position: fixed;
+    padding-top: 0;
+    width: 100%;
+    z-index: 1;
+}
+
+.search-input {
+    width: 85%;
+    padding: 10px 10px;
+    margin: 5px 5px 5px 0px;
+    border-radius: 20px;
+    border: 0.2px solid #03A9F4;
+    box-shadow: inset 8px 8px 8px #848485, inset -8px -8px 8px rgb(148, 136, 136)
+}
+
+.search-input:focus {
+    border: 0.2px solid #039BE5;
+}
+
+.wrapper {
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #ecf0f3;
+    border-radius: 20px;
+}
+
+.button {
+    width: 50%;
+    padding: 8px;
+    background-color: #03A9F4;
+    color: #fff;
+    border-radius: 20px;
+    box-shadow: 3px 3px 3px #b1b1b1, -3px -3px 3px #fff;
+    letter-spacing: 1.3px
+}
+
+.search {
+    width: 12%;
+    padding: 8px;
+    background-color: #03A9F4;
+    color: #fff;
+    border-radius: 20px;
+    box-shadow: 3px 3px 3px #b1b1b1, -3px -3px 3px #fff;
+    letter-spacing: 1.3px
+}
+
+.search:disabled {
+    cursor: not-allowed;
+    pointer-events: all !important;
+}
+
+.search:hover {
+    background-color: #039BE5;
+}
+
+.wrapper .btn:hover {
+    background-color: #039BE5;
+}
+
+.table-hover tbody tr:hover td,
+.table-hover tbody tr:hover th {
+    background-color: #c0c2c2;
+}
+
+table {
+    border-radius: 20px;
+    box-shadow: 13px 13px 20px #cbced1, -13px -13px 20px #fff
+}
+
+.footer {
+    bottom: 0px;
+    width: 100%;
+}

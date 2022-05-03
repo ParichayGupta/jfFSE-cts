@@ -1,0 +1,59 @@
+.top {
+    position: fixed;
+    padding-top: 0;
+    width: 100%;
+    z-index: 1;
+}
+
+.container {
+    min-height: 86vh;
+}
+
+.wrapper {
+    max-width: 450px;
+    min-height: 200px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #ecf0f3;
+    border-radius: 20px;
+    box-shadow: 13px 13px 20px #cbced1, -13px -13px 20px #fff
+}
+
+.wrapper textarea {
+    width: 100%;
+    padding: 10px 10px;
+    margin: 5px 5px 5px 0px;
+    border-radius: 20px;
+    resize: none;
+    box-shadow: inset 8px 8px 8px #cbced1, inset -8px -8px 8px #fff
+}
+
+::placeholder {
+    color: #2e2d2d;
+    opacity: 1;
+    font-weight: 300
+}
+
+.wrapper textarea:focus {
+    border: 1px solid #03A9F4;
+    outline-width: 0;
+}
+
+.button-post {
+    width: 35%;
+    padding: 10px;
+    background-color: #03A9F4;
+    color: #fff;
+    border-radius: 20px;
+    box-shadow: 3px 3px 3px #b1b1b1, -3px -3px 3px #fff;
+    letter-spacing: 1.3px
+}
+
+.button-post:hover {
+    background-color: #039BE5
+}
+
+app-footer {
+    position: fixed;
+    width: 100%;
+}

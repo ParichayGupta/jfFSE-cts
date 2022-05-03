@@ -1,0 +1,26 @@
+<div class="wrapper">
+    <div class="logo"> <img src="https://www.freepnglogos.com/uploads/twitter-logo-png/twitter-bird-symbols-png-logo-0.png" alt=" twitter-logo">
+    </div>
+    <div class="text-center mt-4 name"> Login </div>
+    <form class="p-3 mt-3" [formGroup]="myFormGroup" (ngSubmit)="login()">
+
+        <label for="email">Email: </label>
+        <div class="form-field d-flex flex-column">
+            <input class="custom-field form-control" type="text" name="email" id="email" placeholder="Enter your Email" required [formControl]="myFormGroup.controls['email']" [ngClass]="{'warningOutline' : emailValid}" (keyup)="emailValidation(email)" #email>
+        </div>
+
+        <label for="password">Password: </label>
+        <div class="form-field d-flex flex-column">
+            <input class="custom-field form-control" type="password" name="password " id="password" placeholder="Enter your password" required [formControl]="myFormGroup.controls['password']" #password (keyup)="passwordEmpty()">
+        </div>
+        <button class="btn form-group mt-3">Login</button>
+
+        <div class="text-danger text-center mt-3 ">
+            <small *ngIf="invalid ">Invalid <b> Credentials!</b> </small>
+        </div>
+        <div class="text-danger text-center mt-3 ">
+            <small *ngIf="nullValueErrorMessage ">Enter both <b>Email</b> and <b>Password</b> </small>
+        </div>
+    </form>
+    <div class="text-center "> <a [routerLink]="[ '/forgot'] ">Forget password?</a> or <a [routerLink]="[ '/register'] ">Sign up</a> </div>
+</div>

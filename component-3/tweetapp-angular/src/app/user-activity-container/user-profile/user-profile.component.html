@@ -1,0 +1,148 @@
+<app-nav-bar class="top"></app-nav-bar>
+
+<div *ngIf="showElement" class=" msg mt-1">
+    <div id="alert-dismissible" class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Commented!</strong>
+    </div>
+</div>
+
+<div *ngIf="likedTweetPopup" class=" msg mt-1">
+    <div id="alert-dismissible" class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Liked!</strong>
+    </div>
+</div>
+
+<div *ngIf="disLikedTweetPopup" class=" msg mt-1">
+    <div id="alert-dismissible" class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>DisLiked!</strong>
+    </div>
+</div>
+
+<div *ngIf="deleteTweetPopup" class=" msg mt-1">
+    <div id="alert-dismissible" class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Deleted!</strong>
+    </div>
+</div>
+
+<div *ngIf="updateTweetPopup" class=" msg mt-1">
+    <div id="alert-dismissible" class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Updated!</strong>
+    </div>
+</div>
+
+<div class="container mt-4">
+    <div *ngIf="noTweets" class="py-3 mt-4" style="text-align: center;">
+        <h3 class="mt-4">You have no tweets to display!!</h3>
+        <a [routerLink]="['/post']">Post your first tweet :)</a>
+    </div>
+
+    <div class="wrapper-profile d-flex ">
+        <div class="col-3 align-self-center">
+            <img src="https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes-thumbnail.png" alt=" twitter-logo">
+        </div>
+        <div class="col-9 align-self-center">
+            <div class="mt-2 pe-5 name"> <b>Full Name: </b>{{firstName}} {{lastName}} </div>
+            <div class="mt-2 pe-5 name"> <b>Email: </b>{{email}} </div>
+            <div class="mt-2 pe-5  name"><b>Contact No: </b> {{contact}}</div>
+        </div>
+    </div>
+    <!-- card to display -->
+    <div class="wrapper" *ngFor="let tweet of tweets; index as i;">
+
+        <div class="top-section d-flex justify-content-between me-2">
+            <img src="https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes-thumbnail.png" alt=" twitter-logo">
+            <div class="text-center mt-2 pe-5 align-self-center name"> {{tweet.firstName}} {{tweet.lastName}} </div>
+            <div class="text-center pe-5 align-self-center tweetDate"> {{tweet.tweetDate}} </div>
+
+
+            <div class="col-1 dropdown">
+
+                <button class="btn dropdown shadow-none" type="button" id="dropdownMenuButton" data-toggle="dropdown">
+                        <i class="bi bi-three-dots-vertical text-primary"></i>
+                </button>
+
+                <ul class="bg-light dropdown-menu dropend" aria-labelledby="dropdownMenuButton">
+
+                    <li (click)="deleteTweet(tweet.tweetId)" class="del dropdown-item text-center">Delete
+                        <i class="ml-3 bi bi-trash"></i>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider bg-dark">
+                    </li>
+                    <li (click)="editTweet(tweet.tweetId)" class="edit dropdown-item text-center" data-toggle="modal" data-target="#exampleModalCenter">Edit
+                        <i class="ml-3 bi bi-pencil-fill">
+                        </i>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="mid-section d-flex ps-4 pe-4 mt-4">
+            <p class="post-content text-justify text-dark"> {{tweet.tweetText}}
+            </p>
+        </div>
+
+        <div class="bottom-section d-flex justify-content-around ps-4 mt-2">
+
+            <span *ngIf="!tweet.likeStatus" class="col-4" (click)="likeTweet(tweet.tweetId)"><i class="bi bi-heart text-primary"></i>&nbsp;{{tweet.likesCount}}</span>
+
+            <span *ngIf="tweet.likeStatus" (click)="disLikeTweet(tweet.tweetId)" class="col-4"><i
+                class="bi bi-heart-fill text-danger"></i>&nbsp;{{tweet.likesCount}}</span>
+
+            <button class="btn col-4 shadow-none"><i (click)="isReplyClicked(i)"
+                class="bi bi-chat-left-text text-primary" ></i>&nbsp; {{tweet.commentsCount}}</button>
+        </div>
+
+        <hr class="divider bg-dark" *ngIf="clickedReplyButton[i]">
+        <label class="font-weight-bold" *ngIf="clickedReplyButton[i]">Replies</label>
+
+        <div *ngIf="clickedReplyButton[i] " class="scroll mt-3 p-2">
+            <div *ngFor="let com of tweet.comments" class="comments-section row d-flex flex-column justify-content-around">
+                <h6 class="ml-2 col">
+                    {{com.username}}
+                </h6>
+                <p class="ml-2 col border-bottom border-dark">{{com.comment}}</p>
+            </div>
+        </div>
+
+
+        <hr *ngIf="clickedReplyButton[i]" />
+        <form class="formgroup " *ngIf="clickedReplyButton[i]" [formGroup]="myFormGroup" (ngSubmit)="replyTweet(tweet.tweetId)">
+
+            <textarea class="mb-1 form-control" id="textarea" [formControl]="myFormGroup.controls['reply']" placeholder="Write your comment, it should less than 144 characters!!" name="reply" maxlength="144" rows="3"></textarea>
+            <button class="btn comment-button  me-2 mt-3" type="submit">comment</button>
+        </form>
+
+    </div>
+    <app-scroll-top></app-scroll-top>
+
+
+    <!-- Modal -->
+    <div *ngIf="showModel">
+        <div *ngIf="showModel" class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content wrapper-modal">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Update Tweet</h5>
+                    </div>
+                    <div class="text-center">
+                        <p *ngIf="tweetEmpty" class="text-danger">Tweet can't be empty !</p>
+                    </div>
+                    <div class="modal-body">
+                        <textarea #textarea (keyup)="tweetLengthValidationMethod(textarea)" id="textarea" maxlength="145" name="textarea" rows="3">{{tweetTex}}</textarea>
+                        <div *ngIf="showTweetLength">
+                            <p *ngIf="showTweetRed"><b class="text-danger">145 </b> characters length completed</p>
+                            <p *ngIf="!showTweetRed"><b>{{remainingTweetLength}} </b>characters remaining!!</p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn comment-close" (click)="closeUpdateTweet(textarea) " data-dismiss="modal">Close</button>
+                        <button type="button" class="btn comment-button" [disabled]="tweetEmpty" (click)="updateTweet(textarea, singleTweet.tweetId)" data-dismiss="modal">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<app-footer></app-footer>
