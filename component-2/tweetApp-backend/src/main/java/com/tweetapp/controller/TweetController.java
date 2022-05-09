@@ -39,6 +39,7 @@ public class TweetController {
 //  Kafka Configuration
 	@Autowired
 	private KafkaTemplate<String, String> kafkaTemplate;
+	
 //	Kafka Topic Name
 	private static final String KAFKA_TOPIC = "tweets";
 
