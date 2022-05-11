@@ -28,10 +28,6 @@ export class LoginPageComponent implements OnInit {
    }
 
   
-
-
-
-  
    emailValidation(email : HTMLInputElement){
     if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email.value))
     {
