@@ -53,6 +53,5 @@ public class AuthController {
 		else
 			return new ResponseEntity<>(new AuthenticationResponse("Bad Credentials " + username),
 					HttpStatus.UNAUTHORIZED);
-
 	}
 }
