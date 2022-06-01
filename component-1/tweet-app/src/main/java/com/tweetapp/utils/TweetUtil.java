@@ -7,6 +7,7 @@ import com.tweetapp.service.TweetService;
 
 public class TweetUtil {
 
+
 	public int userId;
 	public int tweetId;
 	public String tweet;
