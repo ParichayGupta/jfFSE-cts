@@ -21,9 +21,9 @@ ___
 ## API REFERENCE
 
 The base package for application is 
-...
+`
 /api/v1.0/tweets
-...
+`
 #### Get all tweets
 
 ```
@@ -60,23 +60,24 @@ The base package for application is
 
 ___
 
-___
-
 ## DOCKERIZATION OF THE APPLICATION
 
-First build the `jar` file for our spring boot application.
+1. First build the `jar` file for our spring boot application.
 
-then run the Dockerfile using 
+2. then run the Dockerfile using "brfore running the above command verify the <final-name> of application in pom.xml file is same as mentioned in the dockerfile."
 
   `docker build -t <docker_image_name> . `
 
 p.s. <docker_image_name> is what you will give image name as it is not present in the docker unless you run the command.
 
+3. To run our application container run the docker compose file "Make sure to change the docker image name in the docker compose file."
+  
+  `docker compose up` or `docker compose up -d`
 ___
 
 ## TweetApp-angular
 
-#### Tweetapp-clone (Frontend) is running on
+#### Tweetapp-angular (Frontend) is running on
 
 ```
   localhost:4200
